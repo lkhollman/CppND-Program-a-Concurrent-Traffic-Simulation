@@ -46,8 +46,8 @@ void Vehicle::drive()
     while (true)
     {
         // sleep at every iteration to reduce CPU usage
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
-
+        std::this_thread::sleep_for(std::chrono::milliseconds(1)); //to significantly reduce
+                                                 //the load on the CPU, because it's so fast.
         // compute time difference to stop watch
         long timeSinceLastUpdate = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastUpdate).count();
         if (timeSinceLastUpdate >= cycleDuration)
@@ -73,7 +73,7 @@ void Vehicle::drive()
             yv = y1 + completion * dy;
             this->setPosition(xv, yv);
 
-            // check wether halting position in front of destination has been reached
+            // check whether halting position in front of destination has been reached
             if (completion >= 0.9 && !hasEnteredIntersection)
             {
                 // request entry to the current intersection (using async)
@@ -84,10 +84,10 @@ void Vehicle::drive()
 
                 // slow down and set intersection flag
                 _speed /= 10.0;
-                hasEnteredIntersection = true;
+                hasEnteredIntersection = true; 
             }
 
-            // check wether intersection has been crossed
+            // check whether intersection has been crossed
             if (completion >= 1.0 && hasEnteredIntersection)
             {
                 // choose next street and destination

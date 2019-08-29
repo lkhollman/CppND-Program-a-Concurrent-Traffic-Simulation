@@ -8,8 +8,8 @@ class Street;
 class Intersection;
 
 class Vehicle : public TrafficObject, public std::enable_shared_from_this<Vehicle>
-{
-public:
+{                                     //in place of using "this", because they are
+public:                               //shared pointers
     // constructor / desctructor
     Vehicle();
 
@@ -21,8 +21,8 @@ public:
     void simulate();
 
     // miscellaneous
-    std::shared_ptr<Vehicle> get_shared_this() { return shared_from_this(); }
-
+    std::shared_ptr<Vehicle> get_shared_this() { return shared_from_this(); }  //keyword "this"
+           //cannot be used with shared pointers, so this concept is used
 private:
     // typical behaviour methods
     void drive();

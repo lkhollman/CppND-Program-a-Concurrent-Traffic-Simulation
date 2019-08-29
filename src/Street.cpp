@@ -7,7 +7,7 @@
 Street::Street()
 {
     _type = ObjectType::objectStreet;
-    _length = 1000.0; // in m
+    _length = 1000.0; // in meters
 }
 
 void Street::setInIntersection(std::shared_ptr<Intersection> in)

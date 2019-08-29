@@ -7,7 +7,6 @@
 #include "Intersection.h"
 #include "Graphics.h"
 
-
 // Paris
 void createTrafficObjects_Paris(std::vector<std::shared_ptr<Street>> &streets, std::vector<std::shared_ptr<Intersection>> &intersections, std::vector<std::shared_ptr<Vehicle>> &vehicles, std::string &filename, int nVehicles)
 {
@@ -57,14 +56,14 @@ void createTrafficObjects_NYC(std::vector<std::shared_ptr<Street>> &streets, std
     filename = "../data/nyc.jpg";
 
     // init traffic objects
-    int nIntersections = 6;
-    for (size_t ni = 0; ni < nIntersections; ni++)
-    {
-        intersections.push_back(std::make_shared<Intersection>());
-    }
+    int nIntersections = 6;  //make this number too large and program will crash, because they aren't available
+    for (size_t ni = 0; ni < nIntersections; ni++)  //push intersections into a vector of shared
+    {                                               //pointers
+        intersections.push_back(std::make_shared<Intersection>()); //instantiate a vector shared
+    }                                        //
 
-    // position intersections in pixel coordinates
-    intersections.at(0)->setPosition(1430, 625);
+    // position intersections in pixel coordinates.  Used photoshop to get the pixel coordinates
+    intersections.at(0)->setPosition(1430, 625);        //within the image.
     intersections.at(1)->setPosition(2575, 1260);
     intersections.at(2)->setPosition(2200, 1950);
     intersections.at(3)->setPosition(1000, 1350);
@@ -77,9 +76,9 @@ void createTrafficObjects_NYC(std::vector<std::shared_ptr<Street>> &streets, std
     {
         streets.push_back(std::make_shared<Street>());
     }
-
-    streets.at(0)->setInIntersection(intersections.at(0));
-    streets.at(0)->setOutIntersection(intersections.at(1));
+                                                           //every intersection
+    streets.at(0)->setInIntersection(intersections.at(0));  //has an IN intersection
+    streets.at(0)->setOutIntersection(intersections.at(1)); //and an OUT instersection.
 
     streets.at(1)->setInIntersection(intersections.at(1));
     streets.at(1)->setOutIntersection(intersections.at(2));
@@ -103,8 +102,8 @@ void createTrafficObjects_NYC(std::vector<std::shared_ptr<Street>> &streets, std
     for (size_t nv = 0; nv < nVehicles; nv++)
     {
         vehicles.push_back(std::make_shared<Vehicle>());
-        vehicles.at(nv)->setCurrentStreet(streets.at(nv));
-        vehicles.at(nv)->setCurrentDestination(intersections.at(nv));
+        vehicles.at(nv)->setCurrentStreet(streets.at(nv));  //vehicle needs a current street
+        vehicles.at(nv)->setCurrentDestination(intersections.at(nv)); //and current destination
     }
 }
 
@@ -128,7 +127,7 @@ int main()
         i->simulate();
     });
 
-    // simulate vehicles
+    // simulate vehicles.  //loops over all the shared pointers
     std::for_each(vehicles.begin(), vehicles.end(), [](std::shared_ptr<Vehicle> &v) {
         v->simulate();
     });

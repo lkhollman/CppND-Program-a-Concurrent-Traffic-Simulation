@@ -6,6 +6,12 @@
 #include <condition_variable>
 #include "TrafficObject.h"
 
+//FP.1
+enum TrafficLightPhase{  
+    red,
+    green
+};
+
 // forward declarations to avoid include cycle
 class Vehicle;
 
@@ -19,8 +25,13 @@ template <class T>
 class MessageQueue
 {
 public:
+    void send(T &&message);
+    T receive();
 
 private:
+    std::deque<T> _queue;
+    std::condition_variable _condition;
+    std::mutex _mutex;
     
 };
 
@@ -30,9 +41,16 @@ private:
 // can be either „red“ or „green“. Also, add the private method „void cycleThroughPhases()“. 
 // Furthermore, there shall be the private member _currentPhase which can take „red“ or „green“ as its value. 
 
-class TrafficLight
+class TrafficLight : public TrafficObject
 {
 public:
+    TrafficLight();
+    void setCurrentPhase(TrafficLightPhase);
+    TrafficLightPhase getCurrentPhase();  //FP.1
+    void waitForGreen();  //FP.1
+    void simulate();   //FP.1
+
+
     // constructor / desctructor
 
     // getters / setters
@@ -40,14 +58,25 @@ public:
     // typical behaviour methods
 
 private:
+    void cycleThroughPhases();  //FP.1
+    TrafficLightPhase _currentPhase;  //FP.1
+
+//from HORKI
+    std::shared_ptr<MessageQueue<TrafficLightPhase>> _messages{  //changed _mq to _messages
+    new MessageQueue<TrafficLightPhase>
+  };
+
+    
+    
     // typical behaviour methods
 
     // FP.4b : create a private member of type MessageQueue for messages of type TrafficLightPhase 
     // and use it within the infinite loop to push each new TrafficLightPhase into it by calling 
     // send in conjunction with move semantics.
 
-    std::condition_variable _condition;
-    std::mutex _mutex;
+
+    std::condition_variable _condition;  //provided
+    std::mutex _mutex;   //provided
 };
 
 #endif

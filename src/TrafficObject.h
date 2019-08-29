@@ -13,10 +13,10 @@ enum ObjectType
     objectStreet,
 };
 
-class TrafficObject
+class TrafficObject  //class definition
 {
 public:
-    // constructor / desctructor
+    // constructor / destructor
     TrafficObject();
     ~TrafficObject();
 
@@ -27,8 +27,8 @@ public:
     ObjectType getType() { return _type; }
 
     // typical behaviour methods
-    virtual void simulate(){};
-
+    virtual void simulate(){};   //virtual means it can be overwritten by classes that are
+                                  //derived from TrafficObject
 protected:
     ObjectType _type;                 // identifies the class type
     int _id;                          // every traffic object has its own unique id
@@ -37,7 +37,7 @@ protected:
     static std::mutex _mtx;           // mutex shared by all traffic objects for protecting cout 
 
 private:
-    static int _idCnt; // global variable for counting object ids
-};
+    static int _idCnt; // global variable for counting object ids.  //static so that it's
+};                                                              //independent of TrafficObject
 
 #endif
